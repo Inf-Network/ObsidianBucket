@@ -2,6 +2,7 @@ package net.infnetwork.snowball.obsidianbucket.service;
 
 import net.infnetwork.snowball.obsidianbucket.config.PluginConfig;
 import net.infnetwork.snowball.obsidianbucket.protection.ProtectionChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,20 +13,21 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ObsidianBucketListener implements Listener {
     private static final String USE_PERMISSION = "obsidianbucket.use";
+    private final JavaPlugin plugin;
     private final PluginConfig config;
     private final ProtectionChecker protectionChecker;
     private final LavaBucketTransformer transformer;
-    private final ConversionEffectService effects;
 
-    public ObsidianBucketListener(PluginConfig config, ProtectionChecker protectionChecker,
-                                  LavaBucketTransformer transformer, ConversionEffectService effects) {
+    public ObsidianBucketListener(JavaPlugin plugin, PluginConfig config, ProtectionChecker protectionChecker,
+                                  LavaBucketTransformer transformer) {
+        this.plugin = plugin;
         this.config = config;
         this.protectionChecker = protectionChecker;
         this.transformer = transformer;
-        this.effects = effects;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
@@ -58,7 +60,11 @@ public final class ObsidianBucketListener implements Listener {
         boolean fillEmptyBucket = item.getType() == Material.BUCKET;
         transformer.transform(player, block, fillEmptyBucket);
         if (fillEmptyBucket) {
-            effects.play(block.getLocation());
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                if (block.getType() == Material.LAVA) {
+                    block.setType(Material.AIR, false);
+                }
+            });
         }
     }
 
