@@ -10,7 +10,13 @@ public final class LavaBucketTransformer {
     public void transform(Player player, Block block, boolean fillEmptyBucket) {
         if (fillEmptyBucket) {
             block.setType(Material.AIR, false);
-            player.getInventory().setItemInMainHand(new ItemStack(Material.LAVA_BUCKET));
+            ItemStack held = player.getInventory().getItemInMainHand();
+            if (held.getAmount() == 1) {
+                player.getInventory().setItemInMainHand(new ItemStack(Material.LAVA_BUCKET));
+            } else {
+                held.setAmount(held.getAmount() - 1);
+                player.getInventory().addItem(new ItemStack(Material.LAVA_BUCKET));
+            }
         } else {
             block.setType(Material.LAVA, false);
             if (player.getGameMode() != GameMode.CREATIVE) {

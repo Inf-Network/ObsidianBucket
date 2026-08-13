@@ -51,6 +51,7 @@ public final class ObsidianBucketListener implements Listener {
             denyVanillaAction(event);
             return;
         }
+        event.setCancelled(true);
         denyVanillaAction(event);
         transformer.transform(player, block, item.getType() == Material.BUCKET);
     }
