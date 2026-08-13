@@ -17,9 +17,9 @@ public final class LavaBucketTransformer {
             block.getWorld().spawnParticle(
                     Particle.BLOCK,
                     block.getLocation().add(0.5, 0.5, 0.5),
-                    8,
-                    0.22, 0.22, 0.22,
-                    0.01,
+                    3,
+                    0.12, 0.12, 0.12,
+                    0.0,
                     obsidianData
             );
             block.getWorld().playSound(block.getLocation(), Sound.ITEM_BUCKET_FILL_LAVA, 1.0f, 1.0f);
