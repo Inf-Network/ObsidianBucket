@@ -36,7 +36,8 @@ public final class ObsidianBucketListener implements Listener {
         }
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.LAVA_BUCKET || event.isCancelled()) {
+        if (item == null || event.isCancelled()
+                || (item.getType() != Material.BUCKET && item.getType() != Material.LAVA_BUCKET)) {
             return;
         }
         if (config.requirePermission() && !player.hasPermission(USE_PERMISSION)) {
@@ -51,7 +52,7 @@ public final class ObsidianBucketListener implements Listener {
             return;
         }
         denyVanillaAction(event);
-        transformer.transform(player, block);
+        transformer.transform(player, block, item.getType() == Material.BUCKET);
     }
 
     private void denyVanillaAction(PlayerInteractEvent event) {
