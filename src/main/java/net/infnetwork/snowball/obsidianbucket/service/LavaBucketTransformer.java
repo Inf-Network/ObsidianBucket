@@ -8,11 +8,14 @@ import org.bukkit.inventory.ItemStack;
 
 public final class LavaBucketTransformer {
     public void transform(Player player, Block block, boolean fillEmptyBucket) {
-        block.setType(Material.LAVA, false);
         if (fillEmptyBucket) {
+            block.setType(Material.AIR, false);
             player.getInventory().setItemInMainHand(new ItemStack(Material.LAVA_BUCKET));
-        } else if (player.getGameMode() != GameMode.CREATIVE) {
+        } else {
+            block.setType(Material.LAVA, false);
+            if (player.getGameMode() != GameMode.CREATIVE) {
             player.getInventory().setItemInMainHand(new ItemStack(Material.BUCKET));
+            }
         }
     }
 }
