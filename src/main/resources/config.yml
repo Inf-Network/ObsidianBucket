@@ -1,0 +1,4 @@
+require-permission: false
+messages:
+  no-permission: "&c你没有权限使用这个功能。"
+  protected: "&c这里受到保护，不能桶装黑曜石。"

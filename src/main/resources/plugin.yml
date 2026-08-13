@@ -1,0 +1,11 @@
+name: ObsidianBucket
+version: '${version}'
+main: net.infnetwork.snowball.obsidianbucket.ObsidianBucketPlugin
+api-version: '1.20'
+author: Snowball_233
+description: 将非保护区域的黑曜石用熔岩桶转化为熔岩。
+
+permissions:
+  obsidianbucket.use:
+    description: 使用熔岩桶将黑曜石转化为熔岩
+    default: true
