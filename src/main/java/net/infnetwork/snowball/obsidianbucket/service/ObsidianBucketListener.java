@@ -12,18 +12,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ObsidianBucketListener implements Listener {
     private static final String USE_PERMISSION = "obsidianbucket.use";
-    private final JavaPlugin plugin;
     private final PluginConfig config;
     private final ProtectionChecker protectionChecker;
     private final LavaBucketTransformer transformer;
 
-    public ObsidianBucketListener(JavaPlugin plugin, PluginConfig config, ProtectionChecker protectionChecker,
+    public ObsidianBucketListener(PluginConfig config, ProtectionChecker protectionChecker,
                                   LavaBucketTransformer transformer) {
-        this.plugin = plugin;
         this.config = config;
         this.protectionChecker = protectionChecker;
         this.transformer = transformer;

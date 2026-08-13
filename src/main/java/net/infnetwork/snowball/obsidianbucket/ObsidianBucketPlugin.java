@@ -14,7 +14,7 @@ public final class ObsidianBucketPlugin extends JavaPlugin {
         PluginConfig config = PluginConfig.load(this);
         ProtectionChecker protectionChecker = new BlockBreakProtectionChecker(getServer());
         getServer().getPluginManager().registerEvents(
-                new ObsidianBucketListener(this, config, protectionChecker, new LavaBucketTransformer()), this);
+                new ObsidianBucketListener(config, protectionChecker, new LavaBucketTransformer()), this);
         getLogger().info("ObsidianBucket enabled.");
     }
 }
