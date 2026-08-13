@@ -22,6 +22,13 @@ public final class LavaBucketTransformer {
                     0.0,
                     obsidianData
             );
+            block.getWorld().spawnParticle(
+                    Particle.FLAME,
+                    block.getLocation().add(0.5, 0.5, 0.5),
+                    6,
+                    0.18, 0.18, 0.18,
+                    0.0
+            );
             block.getWorld().playSound(block.getLocation(), Sound.ITEM_BUCKET_FILL_LAVA, 1.0f, 1.0f);
             ItemStack held = player.getInventory().getItemInMainHand();
             if (held.getAmount() == 1) {
