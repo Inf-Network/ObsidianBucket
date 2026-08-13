@@ -18,12 +18,14 @@ public final class ObsidianBucketListener implements Listener {
     private final PluginConfig config;
     private final ProtectionChecker protectionChecker;
     private final LavaBucketTransformer transformer;
+    private final ConversionEffectService effects;
 
     public ObsidianBucketListener(PluginConfig config, ProtectionChecker protectionChecker,
-                                  LavaBucketTransformer transformer) {
+                                  LavaBucketTransformer transformer, ConversionEffectService effects) {
         this.config = config;
         this.protectionChecker = protectionChecker;
         this.transformer = transformer;
+        this.effects = effects;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
@@ -53,7 +55,11 @@ public final class ObsidianBucketListener implements Listener {
         }
         event.setCancelled(true);
         denyVanillaAction(event);
-        transformer.transform(player, block, item.getType() == Material.BUCKET);
+        boolean fillEmptyBucket = item.getType() == Material.BUCKET;
+        transformer.transform(player, block, fillEmptyBucket);
+        if (fillEmptyBucket) {
+            effects.play(block.getLocation());
+        }
     }
 
     private void denyVanillaAction(PlayerInteractEvent event) {
