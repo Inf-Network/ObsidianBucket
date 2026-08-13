@@ -2,7 +2,6 @@ package net.infnetwork.snowball.obsidianbucket.service;
 
 import net.infnetwork.snowball.obsidianbucket.config.PluginConfig;
 import net.infnetwork.snowball.obsidianbucket.protection.ProtectionChecker;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,18 +29,16 @@ public final class ObsidianBucketListener implements Listener {
         this.transformer = transformer;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK
-                || event.getHand() != EquipmentSlot.HAND
                 || event.getClickedBlock() == null
                 || event.getClickedBlock().getType() != Material.OBSIDIAN) {
             return;
         }
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        if (item == null || event.isCancelled()
-                || (item.getType() != Material.BUCKET && item.getType() != Material.LAVA_BUCKET)) {
+        if (item == null || item.getType() != Material.BUCKET) {
             return;
         }
         if (config.requirePermission() && !player.hasPermission(USE_PERMISSION)) {
@@ -57,15 +54,7 @@ public final class ObsidianBucketListener implements Listener {
         }
         event.setCancelled(true);
         denyVanillaAction(event);
-        boolean fillEmptyBucket = item.getType() == Material.BUCKET;
-        transformer.transform(player, block, fillEmptyBucket);
-        if (fillEmptyBucket) {
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (block.getType() == Material.LAVA) {
-                    block.setType(Material.AIR, false);
-                }
-            });
-        }
+        transformer.transform(player, block, event.getHand());
     }
 
     private void denyVanillaAction(PlayerInteractEvent event) {
